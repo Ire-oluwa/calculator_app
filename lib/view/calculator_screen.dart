@@ -4,12 +4,14 @@ import 'package:calculator/model/button_values.dart';
 import 'package:get/get.dart';
 
 class CalculatorScreen extends StatelessWidget {
-   CalculatorScreen({super.key});
+  CalculatorScreen({super.key});
+
   final controller = Get.put(ArithmeticButtons());
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
+    final controller = Get.find<ArithmeticButtons>();
     return Scaffold(
       backgroundColor: Colors.white12,
       body: SafeArea(
@@ -22,15 +24,17 @@ class CalculatorScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   alignment: Alignment.bottomRight,
-                  child: _buildText(
-                    "${controller.num1}${controller.operand}${controller.num2}"
-                            .isEmpty
-                        ? "0"
-                        : "${controller.num1}${controller.operand}${controller.num2}",
-                    Colors.white,
-                    48,
-                    FontWeight.bold,
-                    align: TextAlign.end,
+                  child: Obx(
+                    ()=> _buildText(
+                      "${controller.num1.value}${controller.operand.value}${controller.num2.value}"
+                              .isEmpty
+                          ? "0"
+                          : "${controller.num1.value}${controller.operand.value}${controller.num2.value}",
+                      Colors.white,
+                      48,
+                      FontWeight.bold,
+                      align: TextAlign.end,
+                    ),
                   ),
                 ),
               ),

@@ -1,12 +1,10 @@
 import 'package:calculator/model/button_values.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 
 class ArithmeticButtons extends GetxController {
-  String num1 = "";
-  String operand = "";
-  String num2 = "";
+  var num1 = "".obs;
+  var operand = "".obs;
+  var num2 = "".obs;
 
   /// Clicking Button
   void onButtonTap(value) {
@@ -39,14 +37,14 @@ class ArithmeticButtons extends GetxController {
   ///calculate
   void calculate(){
     if (num1.isEmpty)return;
-    if (num1.isEmpty)return;
-    if (num1.isEmpty)return;
+    if (operand.isEmpty)return;
+    if (num2.isEmpty)return;
 
-    double number1 = double.parse(num1);
-    double number2 = double.parse(num1);
+    double number1 = double.parse(num1.value);
+    double number2 = double.parse(num2.value);
 
     var result = 0.0;
-    switch (operand){
+    switch (operand.value){
       case Button.add:
         result = number1 + number2;
         break;
@@ -62,12 +60,12 @@ class ArithmeticButtons extends GetxController {
       default:
     }
 
-    num1 = "$result";
-    if (num1.endsWith(".0")){
-      num1 = num1.substring(0, num1.length - 2);
+    num1.value = "$result";
+    if (num1.value.endsWith(".0")){
+      num1.value = num1.value.substring(0, num1.value.length - 2);
     }
-    operand = "";
-    num2 = "";
+    operand.value = "";
+    num2.value = "";
     update();
   }
 
@@ -79,29 +77,29 @@ class ArithmeticButtons extends GetxController {
     if (operand.isNotEmpty) {
       return;
     }
-    final number = double.parse(num1);
-    num1 = "${(number / 100)}";
-    operand = "";
-    num2 = "";
+    final number = double.parse(num1.value);
+    num1.value = "${(number / 100)}";
+    operand.value = "";
+    num2.value = "";
     update();
   }
 
   ///clearAll
   void clearAll() {
-    num1 = "";
-    operand = "";
-    num2 = "";
+    num1.value = "";
+    operand.value = "";
+    num2.value = "";
     update();
   }
 
   ///delete
   void delete() {
-    if (num2.isNotEmpty) {
-      num2 = num2.substring(0, num2.length - 1);
-    } else if (operand.isNotEmpty) {
-      operand = "";
-    } else if (num1.isNotEmpty) {
-      num1 = num1.substring(0, num1.length - 1);
+    if (num2.value.isNotEmpty) {
+      num2.value = num2.value.substring(0, num2.value.length - 1);
+    } else if (operand.value.isNotEmpty) {
+      operand.value = "";
+    } else if (num1.value.isNotEmpty) {
+      num1.value = num1.value.substring(0, num1.value.length - 1);
     }
     update();
   }
@@ -115,21 +113,21 @@ class ArithmeticButtons extends GetxController {
         calculate();
       }
       //assign the non-number to operand
-      operand = value;
+      operand.value = value;
     }
     // assign number 1
-    else if (num1.isEmpty || operand.isEmpty) {
-      if (value == Button.dot && num1.contains(Button.dot)) return;
-      if (value == Button.dot && (num1.isEmpty || num1 == Button.dot)) {
+    else if (num1.value.isEmpty || operand.value.isEmpty) {
+      if (value == Button.dot && num1.value.contains(Button.dot)) return;
+      if (value == Button.dot && (num1.value.isEmpty || num1.value == Button.dot)) {
         value = "0.";
       }
-      num1 += value;
-    } else if (num2.isEmpty || operand.isNotEmpty) {
-      if (value == Button.dot && num1.contains(Button.dot)) return;
-      if (value == Button.dot && (num2.isEmpty || num2 == Button.dot)) {
+      num1.value += value;
+    } else if (num2.value.isEmpty || operand.value.isNotEmpty) {
+      if (value == Button.dot && num1. value.contains(Button.dot)) return;
+      if (value == Button.dot && (num2.value.isEmpty || num2.value == Button.dot)) {
         value = "0.";
       }
-      num2 += value;
+      num2.value += value;
     }
 
     update();
